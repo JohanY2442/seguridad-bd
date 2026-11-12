@@ -1,0 +1,12 @@
+# Archivos del sistema (Mac y Windows)
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales de Office y editores
+~$*
+*.tmp
+
+# Carpetas de configuración local
+.vscode/
+.idea/
