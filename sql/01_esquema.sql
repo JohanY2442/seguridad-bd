@@ -37,12 +37,21 @@ CREATE TABLE cita (
   motivo VARCHAR(200),
   estado VARCHAR(20) NOT NULL,
   FOREIGN KEY (id_paciente) REFERENCES paciente(id_paciente),
-  FOREIGN KEY (id_horario) REFERENCES horario(id_horario)
+  FOREIGN KEY (id_horario) REFERENCES horario(id_horario),
+
+  CONSTRAINT unique_horario_cita UNIQUE (id_horario),
+
+  CONSTRAINT check_estado_cita
+  CHECK (estado IN ('programada', 'atendida', 'cancelada'))
 );
 
 
+INSERT INTO especialidad (nombre) VALUES
+('Cardiología'),
+('Pediatría'),
+('Dermatología');
 
-INSERT INTO especialidad (nombre) VALUES ('Cardiología'), ('Pediatría'), ('Dermatología');
+
 INSERT INTO medico (nombre, apellido, colegiatura, id_especialidad) VALUES
 ('Carlos', 'Ramírez', 'CMP10001', 1),
 ('Ana', 'Torres', 'CMP10002', 2),
@@ -91,7 +100,6 @@ INSERT INTO horario (id_medico, fecha, hora) VALUES
 (5, '2026-11-20', '11:00');
 
 
-
 INSERT INTO cita (id_paciente, id_horario, motivo, estado) VALUES
 (1, 1, 'Dolor en el pecho', 'programada'),
 (2, 2, 'Control médico', 'atendida'),
@@ -115,7 +123,7 @@ INSERT INTO cita (id_paciente, id_horario, motivo, estado) VALUES
 (10, 20, 'Control dermatológico', 'atendida');
 
 
---Este join sirve para mostrar las citas con el paciente y el medico
+-- Este join sirve para mostrar las citas con el paciente y el médico
 SELECT
   paciente.nombre AS nombre_paciente,
   paciente.apellido AS apellido_paciente,
@@ -131,7 +139,7 @@ JOIN horario ON cita.id_horario = horario.id_horario
 JOIN medico ON horario.id_medico = medico.id_medico;
 
 
---Este join sirve para mostrar a los medicos y sus especialiades
+-- Este join sirve para mostrar a los médicos y sus especialidades
 SELECT
   medico.nombre,
   medico.apellido,
