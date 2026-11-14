@@ -30,22 +30,18 @@ INSERT INTO horario (id_medico, fecha, hora) VALUES
 (1, '2026-11-15', '11:00'),
 (1, '2026-11-17', '10:00'),
 (1, '2026-11-18', '15:00'),
-
 (2, '2026-11-15', '08:00'),
 (2, '2026-11-16', '10:00'),
 (2, '2026-11-18', '09:00'),
 (2, '2026-11-19', '11:00'),
-
 (3, '2026-11-16', '14:00'),
 (3, '2026-11-17', '09:00'),
 (3, '2026-11-19', '10:00'),
 (3, '2026-11-20', '16:00'),
-
 (4, '2026-11-15', '14:00'),
 (4, '2026-11-17', '08:00'),
 (4, '2026-11-18', '11:00'),
 (4, '2026-11-20', '09:00'),
-
 (5, '2026-11-16', '08:00'),
 (5, '2026-11-18', '10:00'),
 (5, '2026-11-19', '15:00'),
@@ -75,27 +71,28 @@ INSERT INTO cita (id_paciente, id_horario, motivo, estado) VALUES
 (10, 20, 'Control dermatológico', 'atendida');
 
 
--- Este join sirve para mostrar las citas con el paciente y el médico
+-- JOIN 1: citas con información del paciente y del médico
 SELECT
-  paciente.nombre AS nombre_paciente,
-  paciente.apellido AS apellido_paciente,
-  medico.nombre AS nombre_medico,
-  medico.apellido AS apellido_medico,
-  horario.fecha,
-  horario.hora,
-  cita.motivo,
-  cita.estado
+    paciente.nombre AS nombre_paciente,
+    paciente.apellido AS apellido_paciente,
+    medico.nombre AS nombre_medico,
+    medico.apellido AS apellido_medico,
+    horario.fecha,
+    horario.hora,
+    cita.motivo,
+    cita.estado
 FROM cita
 JOIN paciente ON cita.id_paciente = paciente.id_paciente
 JOIN horario ON cita.id_horario = horario.id_horario
 JOIN medico ON horario.id_medico = medico.id_medico;
 
 
--- Este join sirve para mostrar a los médicos y sus especialidades
+-- JOIN 2: médicos y sus especialidades
 SELECT
-  medico.nombre,
-  medico.apellido,
-  medico.colegiatura,
-  especialidad.nombre AS especialidad
+    medico.nombre,
+    medico.apellido,
+    medico.colegiatura,
+    especialidad.nombre AS especialidad
 FROM medico
-JOIN especialidad ON medico.id_especialidad = especialidad.id_especialidad;
+JOIN especialidad
+    ON medico.id_especialidad = especialidad.id_especialidad;
